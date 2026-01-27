@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DAL/DAL.csproj" Id="26dd0d59-6c0b-452c-9bf2-0db1d335611d" />
+  <Project Path="RazorPages/RazorPages.csproj" />
+</Solution>
