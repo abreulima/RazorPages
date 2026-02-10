@@ -1,11 +1,31 @@
 ﻿@page
 @model RazorPages.Pages.RegisterModel
+
 @{
+	Layout = null;
 }
 
 <h1>
 	Register
 </h1>
+
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - RazorPages</title>
+	<script type="importmap"></script>
+	</head>	<meta charset="utf-8" />
+
+
+	<body>
+		<div class="text-center">
+			<h1 class="display-4">Register</h1>
+			<p>Register a new account.</p>
+		</div>
+	</body>
+</html>
 
 <form method="post">
 	<input asp-for="Username" name="Username"/>
