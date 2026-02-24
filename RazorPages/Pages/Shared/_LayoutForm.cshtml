@@ -1,0 +1,62 @@
+﻿<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewBag.Title</title>
+	<script src="https://cdn.jsdelivr.net/npm/@@tailwindcss/browser@4"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+	<style type="text/tailwindcss">
+		@@layer base 
+		{
+			body 
+			{
+				@@apply antialiased font-[Delius] flex flex-col justify-center items-center bg-[url(~/images/bg-2.jpeg)] h-screen;
+            }
+			form
+			{
+				@@apply flex flex-col gap-2 bg-white border-3 rounded-sm p-5;
+            }
+			button 
+			{
+				@@apply bg-yellow-300 hover:bg-yellow-200 font-bold border-3 rounded mt-4 p-2;
+			}
+			input 
+			{
+				@@apply rounded-sm border-2 bg-yellow-300 hover:bg-yellow-200;
+			}
+			h1 
+			{
+				@@apply text-2xl mb-4 font-bold;
+			}
+			label
+			{
+				@@apply text-lg font-bold;
+			}
+			a
+			{
+				@@apply font-bold bg-yellow-300 hover:bg-transparent;
+            }
+		}
+		@@layer components
+		{
+			.alert
+			{
+				@@apply mt-4 bg-red-300 rounded p-1;
+			}
+			.links
+			{
+				@@apply flex mt-4 justify-between;
+			}
+		}
+	</style>
+</head>
+
+<body style="background-image: url('@Url.Content("~/images/bg-2.jpeg")');">
+	@RenderBody()
+</body>
+
+</html>

@@ -38,7 +38,7 @@ namespace DAL.Repositories
 
             using SqlConnection conn = new SqlConnection(_connString);
             using SqlCommand cmd = new SqlCommand(
-                "SELECT Id, Name, Email, CreationDate FROM Users",
+                "SELECT ID, FirstName, LastName, Email, CreationDate FROM Users",
                 conn
             );
 
@@ -51,10 +51,11 @@ namespace DAL.Repositories
                 users.Add(new User
                     {
                         Id = reader.GetInt32(0),
-                        Name = reader.GetString(1),
-                        Email = reader.GetString(2),
-                        CreationDate = reader.GetDateTime(3)
-                    }
+                        FirstName = reader.GetString(1),
+                        LastName = reader.GetString(2),
+                        Email = reader.GetString(3),
+                        CreationDate = reader.GetDateTime(4)
+                }
                 );
 
             }
@@ -65,18 +66,21 @@ namespace DAL.Repositories
         public async Task AddAsync(User user)
         {
 
-            using SqlConnection conn = new SqlConnection("_connString");
+            using SqlConnection conn = new SqlConnection(_connString);
             using SqlCommand cmd = new SqlCommand(
-                "INSERT INTO Users (Name, Email, Password) FROM Users",
+                "INSERT INTO Users (firstname, lastName, email, password)" +
+                " VALUES (@FirstName, @LastName, @Email, @Password)",
                 conn
             );
 
-            cmd.Parameters.AddWithValue("@Name", user.Name);
+            cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
+            cmd.Parameters.AddWithValue("@LastName", user.LastName);
             cmd.Parameters.AddWithValue("@Email", user.Email);
             cmd.Parameters.AddWithValue("@Password", PasswordHelper.Md5(user.Password));
 
             await conn.OpenAsync();
             await cmd.ExecuteNonQueryAsync();
+            await conn.CloseAsync();
         }
 
     }

@@ -2,35 +2,41 @@
 @model RazorPages.Pages.RegisterModel
 
 @{
-	Layout = null;
+    ViewData["Title"] = "Registo";
+	Layout = "_LayoutForm";
 }
 
-<h1>
-	Register
-</h1>
+<form method="post" action="">
 
+	<h1>Registo</h1>
 
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>@ViewData["Title"] - RazorPages</title>
-	<script type="importmap"></script>
-	</head>	<meta charset="utf-8" />
+	<div class="flex justify-between gap-2">
+		<label>nome</label>
+		<input name="firstName" type="text">
+	</div>
 
+	<div class="flex justify-between gap-2">
+		<label>apelido</label>
+		<input name="lastName" type="text">
+	</div>
 
-	<body>
-		<div class="text-center">
-			<h1 class="display-4">Register</h1>
-			<p>Register a new account.</p>
-		</div>
-	</body>
-</html>
+	<div class="flex justify-between gap-2">
+		<label>passe</label>
+		<input name="password" type="password">
+	</div>
 
-<form method="post">
-	<input asp-for="Username" name="Username"/>
-	<input asp-for="Password" name="Password" type="password" />
-	<input asp-for="Email" name="Email" />
-	<button type="submit">Login</button>
+	<div class="flex justify-between gap-2">
+		<label>email</label>
+		<input name="email" type="email">
+	</div>
+
+	<button type="submit">enviar</button>
+
+	<span class="alert">Usuário já registrado.</span>
+
+	<div class="links">
+		<span>Já tens registo?<a href="">Entrar</a></span>
+		<span><a href="">Voltar</a></span>
+	</div>
 
 </form>

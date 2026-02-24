@@ -14,15 +14,19 @@ namespace RazorPages.Pages
 
         [BindProperty]
         [Required]
-        public string Username { get; set; }
+        public string firstName { get; set; }
 
         [BindProperty]
         [Required]
-        public string Password { get; set; }
+        public string lastName { get; set; }
 
         [BindProperty]
         [Required]
-        public string Email { get; set; }
+        public string password { get; set; }
+
+        [BindProperty]
+        [Required]
+        public string email { get; set; }
 
         public RegisterModel(UserService userService)
         {
@@ -36,14 +40,17 @@ namespace RazorPages.Pages
         public async Task<IActionResult> OnPostAsync()
         {
 
-            Console.WriteLine(Username);
-            Console.WriteLine(Password);
+            Console.WriteLine(firstName);
+            Console.WriteLine(lastName);
+            Console.WriteLine(password);
+            Console.WriteLine(email);
 
             User user = new User
             {
-                Name = Username,
-                Email = Email,
-                Password = Password,
+                FirstName = firstName,
+                LastName = lastName,
+                Password = password,
+                Email = email,
             };
 
             await _userService.CreateUserAysnc(user);
