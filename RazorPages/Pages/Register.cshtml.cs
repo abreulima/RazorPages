@@ -9,7 +9,7 @@ namespace RazorPages.Pages
     public class RegisterModel : PageModel
     {
 
-        private readonly UserService _userService;
+        private readonly UserService userService;
 
 
         [BindProperty]
@@ -28,9 +28,9 @@ namespace RazorPages.Pages
         [Required]
         public string email { get; set; }
 
-        public RegisterModel(UserService userService)
+        public RegisterModel(UserService _userService)
         {
-            _userService = userService;
+            userService = _userService;
         }
 
         public void OnGet()
@@ -53,7 +53,7 @@ namespace RazorPages.Pages
                 Email = email,
             };
 
-            await _userService.CreateUserAysnc(user);
+            await userService.CreateUserAysnc(user);
 
             return Page();
         }

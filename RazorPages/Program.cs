@@ -11,6 +11,13 @@ namespace RazorPages
             builder.Services.AddScoped<DAL.Repositories.UserRepository>();
             builder.Services.AddScoped<DAL.Services.UserService>();
 
+            builder.Services.AddScoped<DAL.Repositories.IngredientRepository>();
+            builder.Services.AddScoped<DAL.Services.IngredientService>();
+
+            builder.Services.AddScoped<DAL.Repositories.CategoryRepository>();
+            builder.Services.AddScoped<DAL.Services.CategoryService>();
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -27,6 +34,7 @@ namespace RazorPages
 
             app.UseAuthorization();
 
+            // Permite acesso ao arquivos estáicos na pasta wwwroot
             app.UseStaticFiles();
 
             app.MapStaticAssets();

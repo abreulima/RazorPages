@@ -1,0 +1,26 @@
+﻿@page
+@model RazorPages.Pages.Admin.CategoryModel
+
+@{
+    ViewData["Title"] = "Registo";
+	Layout = "_LayoutForm";
+}
+
+<form method="post" action="">
+
+	<h1>Novo Categoria</h1>
+
+	<div class="flex justify-between gap-2">
+		<label>nome</label>
+		<input name="name" type="text">
+	</div>
+
+	<button type="submit">enviar</button>
+
+	<span class="alert">Usuário já registrado.</span>
+
+	<div class="links">
+		<span><a href="">Voltar</a></span>
+	</div>
+
+</form>
