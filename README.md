@@ -1,5 +1,6 @@
 - Todo
   - Search
+  - Logout
   - Add Recipes Page
   - View Recipes
   - Insert New Coments
