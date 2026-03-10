@@ -12,21 +12,21 @@ namespace DAL.Services
             this.ingredientRepository = ingredientRepository;
         }
 
-        public async Task<List<User>> GetAllUsersAsync()
+        public async Task<List<Ingredient>> GetAllAsync()
         {
-            return await ingredientRepository.GetAllAsync();
+            return await ingredientRepository.GetAll();
         }
 
-        // Get By Id
-
-        public async Task CreateIngredientAysnc(Ingredient ingredient)
+        public async Task CreateIngredient(Ingredient ingredient)
         {
-            await ingredientRepository.AddAsync(ingredient);
+            await ingredientRepository.Add(ingredient);
+
         }
 
-        // Update
-
-        // Delete
+        public async Task<bool> IsRegistered(string name)
+        {
+            return await ingredientRepository.IsRegistered(name);
+        }
 
     }
 }

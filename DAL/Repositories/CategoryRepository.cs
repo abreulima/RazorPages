@@ -31,39 +31,33 @@ namespace DAL.Repositories
             _connString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<List<User>> GetAllAsync()
+        public async Task<List<Category>> GetAll()
         {
-
-            List<User> users = new List<User>();
-
+            List<Category> categories = new List<Category>();
             using SqlConnection conn = new SqlConnection(_connString);
+
             using SqlCommand cmd = new SqlCommand(
-                "SELECT ID, FirstName, LastName, Email, CreationDate FROM Users",
+                "SELECT ID, Category FROM Categories",
                 conn
             );
 
             await conn.OpenAsync();
-
             using SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
-                users.Add(new User
-                    {
-                        Id = reader.GetInt32(0),
-                        FirstName = reader.GetString(1),
-                        LastName = reader.GetString(2),
-                        Email = reader.GetString(3),
-                        CreationDate = reader.GetDateTime(4)
-                }
-                );
-
+                categories.Add(new Category
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1)
+                });
             }
 
-            return users;
+            return categories;
         }
 
-        public async Task AddAsync(Category category)
+
+        public async Task Add(Category category)
         {
 
             using SqlConnection conn = new SqlConnection(_connString);
@@ -78,6 +72,22 @@ namespace DAL.Repositories
             await conn.OpenAsync();
             await cmd.ExecuteNonQueryAsync();
             await conn.CloseAsync();
+        }
+
+        public async Task<bool> IsRegistered(string name)
+        {
+            using SqlConnection conn = new SqlConnection(_connString);
+
+            using SqlCommand cmd = new SqlCommand(
+                "SELECT COUNT(1) FROM Categories WHERE Category = @Category",
+                conn
+            );
+
+            cmd.Parameters.AddWithValue("@Category", name);
+
+            await conn.OpenAsync();
+            int count = (int)await cmd.ExecuteScalarAsync();
+            return count > 0;
         }
 
     }

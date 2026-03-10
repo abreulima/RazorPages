@@ -14,15 +14,21 @@ namespace DAL.Services
 
         public async Task<List<User>> GetAllUsersAsync()
         {
-            return await userRepository.GetAllAsync();
+            return await userRepository.GetAll();
         }
 
         // Get By Id
 
-        public async Task CreateUserAysnc(User user)
+        public async Task CreateUser(User user)
         {
-            await userRepository.AddAsync(user);
+            await userRepository.Add(user);
         }
+
+        public async Task<bool> IsRegistered(string email)
+        {
+            return await userRepository.IsRegistered(email);
+        }
+
 
         // Update
 

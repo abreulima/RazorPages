@@ -15,26 +15,41 @@ namespace RazorPages.Pages.Admin
         [Required]
         public string Name { get; set; }
 
+        public bool Error { get; set; } = false;
+
         public IngredientModel(IngredientService _ingredientService)
         {
             ingredientService = _ingredientService;
         }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            string? isAdmin = HttpContext.Session.GetString("IsAdmin");
+
+            if (isAdmin != "True")
+                return RedirectToPage("/Login");
+
+            return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
 
-            Console.WriteLine(Name);
+
+            bool isIngredientRegistered = await ingredientService.IsRegistered(Name);
+
+            if (isIngredientRegistered)
+            {
+                Error = true;
+                return Page();
+            }
 
             Ingredient ingredient = new Ingredient
             {
                 Name = Name,
             };
 
-            await ingredientService.CreateIngredientAysnc(ingredient);
+            await ingredientService.CreateIngredient(ingredient);
 
             return Page();
         }

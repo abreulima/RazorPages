@@ -17,10 +17,13 @@
 
 	<button type="submit">enviar</button>
 
-	<span class="alert">Usuário já registrado.</span>
+    @if (Model.Error)
+	{
+		<span class="alert">Ingrediente já registrado.</span>	
+	}
 
 	<div class="links">
-		<span><a href="">Voltar</a></span>
+		<span><a href="/Index">Voltar</a></span>
 	</div>
 
 </form>

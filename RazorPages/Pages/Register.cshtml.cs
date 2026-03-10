@@ -28,6 +28,8 @@ namespace RazorPages.Pages
         [Required]
         public string email { get; set; }
 
+        public bool Error { get; set; } = false;
+
         public RegisterModel(UserService _userService)
         {
             userService = _userService;
@@ -40,10 +42,13 @@ namespace RazorPages.Pages
         public async Task<IActionResult> OnPostAsync()
         {
 
-            Console.WriteLine(firstName);
-            Console.WriteLine(lastName);
-            Console.WriteLine(password);
-            Console.WriteLine(email);
+            bool isEmailRegistered = await userService.IsRegistered(email);
+
+            if (isEmailRegistered)
+            {
+                Error = true;
+                return Page();
+            }
 
             User user = new User
             {
@@ -53,9 +58,9 @@ namespace RazorPages.Pages
                 Email = email,
             };
 
-            await userService.CreateUserAysnc(user);
+            await userService.CreateUser(user);
 
-            return Page();
+            return RedirectToPage("/Login");
         }
     }
 }

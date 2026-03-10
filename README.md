@@ -1,0 +1,10 @@
+- Todo
+  - Search
+  - View Recipes
+  - Insert New Coments
+  - Rate recipes
+  - Add/Manage favorites
+  - Personal Page
+  - Change email/name
+  - Manage User
+  - Accept Recipes

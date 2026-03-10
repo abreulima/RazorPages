@@ -14,7 +14,11 @@ namespace DAL.Services
 
         public async Task CreateDifficultAysnc(Difficult difficult)
         {
-            await difficultRepository.AddAsync(difficult);
+            await difficultRepository.Add(difficult);
+        }
+        public async Task<bool> IsRegistered(string name)
+        {
+            return await difficultRepository.IsRegistered(name);
         }
 
     }

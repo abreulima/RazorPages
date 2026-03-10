@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RazorPages.Pages.Admin
 {
-    public class CategoryModel : PageModel
+    public class ActiveUserModel : PageModel
     {
 
         private readonly CategoryService categoryService;
@@ -15,9 +15,7 @@ namespace RazorPages.Pages.Admin
         [Required]
         public string Name { get; set; }
 
-        public bool Error { get; set; } = false;
-
-        public CategoryModel(CategoryService categoryService)
+        public ActiveUserModel(CategoryService categoryService)
         {
             this.categoryService = categoryService;
         }
@@ -35,13 +33,7 @@ namespace RazorPages.Pages.Admin
         public async Task<IActionResult> OnPostAsync()
         {
 
-            bool isCategoryRegistered = await categoryService.IsRegistered(Name);
-
-            if (isCategoryRegistered)
-            {
-                Error = true;
-                return Page();
-            }
+            Console.WriteLine(Name);
 
             Category category = new Category
             {

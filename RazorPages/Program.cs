@@ -1,12 +1,29 @@
+using DAL.Repositories;
+
 namespace RazorPages
 {
+
+    // Session
+    // https://learn.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-10.0
+
     public class Program
     {
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            builder.Services.AddDistributedMemoryCache();
+
+
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(21);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+
+            // Adiciona 
             builder.Services.AddRazorPages();
             builder.Services.AddScoped<DAL.Repositories.UserRepository>();
             builder.Services.AddScoped<DAL.Services.UserService>();
@@ -16,6 +33,12 @@ namespace RazorPages
 
             builder.Services.AddScoped<DAL.Repositories.CategoryRepository>();
             builder.Services.AddScoped<DAL.Services.CategoryService>();
+
+            builder.Services.AddScoped<DAL.Repositories.DifficultRepository>();
+            builder.Services.AddScoped<DAL.Services.DifficultService>();
+
+            builder.Services.AddScoped<DAL.Repositories.RecipeRepository>();
+            builder.Services.AddScoped<DAL.Services.RecipeService>();
 
 
             var app = builder.Build();
@@ -36,6 +59,9 @@ namespace RazorPages
 
             // Permite acesso ao arquivos estáicos na pasta wwwroot
             app.UseStaticFiles();
+
+            // Permite o uso de sessões, verifique método AddSession acima
+            app.UseSession();
 
             app.MapStaticAssets();
             app.MapRazorPages()

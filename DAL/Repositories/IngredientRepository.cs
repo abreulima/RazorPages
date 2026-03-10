@@ -31,39 +31,32 @@ namespace DAL.Repositories
             _connString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<List<User>> GetAllAsync()
+        public async Task<List<Ingredient>> GetAll()
         {
-
-            List<User> users = new List<User>();
+            List<Ingredient> ingredients = new List<Ingredient>();
 
             using SqlConnection conn = new SqlConnection(_connString);
             using SqlCommand cmd = new SqlCommand(
-                "SELECT ID, FirstName, LastName, Email, CreationDate FROM Users",
+                "SELECT ID, Ingredient FROM Ingredients",
                 conn
             );
 
             await conn.OpenAsync();
-
             using SqlDataReader reader = await cmd.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
-                users.Add(new User
-                    {
-                        Id = reader.GetInt32(0),
-                        FirstName = reader.GetString(1),
-                        LastName = reader.GetString(2),
-                        Email = reader.GetString(3),
-                        CreationDate = reader.GetDateTime(4)
-                }
-                );
-
+                ingredients.Add(new Ingredient
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1)
+                });
             }
 
-            return users;
+            return ingredients;
         }
 
-        public async Task AddAsync(Ingredient ingredient)
+        public async Task Add(Ingredient ingredient)
         {
 
             using SqlConnection conn = new SqlConnection(_connString);
@@ -78,6 +71,22 @@ namespace DAL.Repositories
             await conn.OpenAsync();
             await cmd.ExecuteNonQueryAsync();
             await conn.CloseAsync();
+        }
+
+        public async Task<bool> IsRegistered(string name)
+        {
+            using SqlConnection conn = new SqlConnection(_connString);
+
+            using SqlCommand cmd = new SqlCommand(
+                "SELECT COUNT(1) FROM Ingredients WHERE Ingredient = @Ingredient",
+                conn
+            );
+
+            cmd.Parameters.AddWithValue("@Ingredient", name);
+
+            await conn.OpenAsync();
+            int count = (int)await cmd.ExecuteScalarAsync();
+            return count > 0;
         }
 
     }

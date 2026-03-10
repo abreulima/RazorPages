@@ -1,16 +1,35 @@
 ﻿@page
 @model RazorPages.Pages.LoginModel
+
 @{
+    ViewData["Title"] = "Registo";
+	Layout = "_LayoutForm";
 }
 
-<h1>
-	Hello World
-</h1>
+<form method="post" action="">
 
-<form method="post">
-	<input asp-for="Username" name="Username"/>
-	<input asp-for="Password" name="Password" type="password" />
+	<h1>Login</h1>
 
-	<button type="submit">Login</button>
+	<div class="flex justify-between gap-2">
+		<label>email</label>
+		<input name="email" type="text" required>
+	</div>
+
+	<div class="flex justify-between gap-2">
+		<label>password</label>
+		<input name="password" type="password" required>
+	</div>
+
+	@if (Model.Error)
+	{
+		<span class="alert">Senha errada ou usuário não encontrado.</span>
+	}
+
+	<button type="submit">entrar</button>
+
+	<div class="links">
+		<span>Não tens registo?<a href="/Register">Cadastrar</a></span>
+		<span><a href="/Index">Voltar</a></span>
+	</div>
 
 </form>
