@@ -1,5 +1,6 @@
 - Todo
   - Search
+  - Add Recipes Page
   - View Recipes
   - Insert New Coments
   - Rate recipes
