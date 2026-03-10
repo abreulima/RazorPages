@@ -20,7 +20,7 @@ namespace RazorPages.Pages
         public string Password { get; set; }
 
         public User? CurrentUser { get; set; }
-        public bool Error { get; set; }
+        public bool Error { get; set; } = false;
 
 
         private readonly UserRepository _userRepository;
@@ -36,8 +36,6 @@ namespace RazorPages.Pages
 
         public async Task<IActionResult> OnPost()
         {
-
-            Error = false;
 
             CurrentUser = await _userRepository.GetUserLogin(Email, Password);
 

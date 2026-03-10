@@ -1,0 +1,67 @@
+﻿@page
+@model RazorPages.Pages.AddRecipeModel
+
+@{
+    ViewData["Title"] = "Registo";
+	Layout = "_LayoutForm";
+}
+
+<form method="post" action="">
+
+	<h1>Receita</h1>
+
+	<div class="flex justify-between gap-2">
+		<label>Título</label>
+		<input name="titleName" type="text">
+	</div>
+
+	<div class="flex flex-col justify-between gap-2">
+		<label class="text-lg font-bold">Ingredientes</label>
+
+		<div class="flex flex-col gap-2">
+
+			<div id="ingredientForm" class="flex gap-2">
+				<select class="rounded-sm border-2  bg-yellow-300 hover:bg-yellow-200 " name="cars" id="cars">
+				@foreach (var ingredient in Model.AvailableIngredients)
+				{
+					<option value="@ingredient.Id">@ingredient.Name</option>
+				}
+				</select>
+				<input type="password" size="10" class="rounded-sm  border-2 bg-yellow-300 hover:bg-yellow-200"
+					   placeholder="Qtd. (1)">
+				<input type="password" size="10" class="rounded-sm  border-2 bg-yellow-300 hover:bg-yellow-200"
+					   placeholder="Unidade (kg)">
+			</div>
+		</div>
+
+
+		<button onclick="addMoreIngredient(); return false;" class="bg-yellow-300 hover:bg-yellow-200 font-bold border-2 rounded">
+			adicionar
+			mais
+		</button>
+
+	</div>
+
+	<div class="flex justify-between gap-2">
+		<label>Preparação</label>
+		<input name="preparation">
+	</div>
+
+	<div class="flex justify-between gap-2">
+		<label>email</label>
+		<input name="email" type="email">
+	</div>
+
+	<button type="submit">enviar</button>
+
+	@if (Model.Error)
+	{
+		<span class="alert">Usuário já registrado.</span>
+	}
+
+	<div class="links">
+	<span>Já tens registo?<a href="/Login">Entrar</a></span>
+	<span><a href="/Index">Voltar</a></span>
+	</div>
+
+</form>

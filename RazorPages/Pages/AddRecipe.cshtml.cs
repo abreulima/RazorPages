@@ -3,6 +3,7 @@ using DAL.Models;
 using DAL.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.IdentityModel.Tokens;
 
 namespace RazorPages.Pages
 {
@@ -13,7 +14,7 @@ namespace RazorPages.Pages
         public string Unity { get; set; }
     }
 
-    public class RecipeModel : PageModel
+    public class AddRecipeModel : PageModel
     {
 
         private readonly IngredientService _ingredientService;
@@ -36,7 +37,7 @@ namespace RazorPages.Pages
         public int DifficultId { get; set; }
 
 
-        [BindProperty] public List<IngredientInput> Ingredients { get; set; } = new();
+        [BindProperty] public List<IngredientInput> ingredientesInput { get; set; } = new();
 
 
         public List<Ingredient> AvailableIngredients { get; set; } = new();
@@ -45,7 +46,7 @@ namespace RazorPages.Pages
         public bool Error { get; set; } = false;
 
 
-        public RecipeModel(RecipeService recipeService, IngredientService ingredientService)
+        public AddRecipeModel(RecipeService recipeService, IngredientService ingredientService)
         {
             _recipeService = recipeService;
             _ingredientService = ingredientService;
@@ -54,14 +55,25 @@ namespace RazorPages.Pages
         public async void OnGet()
         {
 
+
             string? name = HttpContext.Session.GetString("Name");
-            if (name == null)
+            Console.WriteLine("dsad" + name);
+            if (name.IsNullOrEmpty)
             {
                 RedirectToPage("/Login");
                 return;
             }
 
-            //AvailableIngredients = await _ingredientService.GetAll();
+            Console.WriteLine("Hello");
+
+            AvailableIngredients = await _ingredientService.GetAll();
+
+
+            foreach (var ingredient in AvailableIngredients)
+            {
+                Console.WriteLine(ingredient.Name);
+            }
+
             //Categories = await _recipeService.GetAll();
             //Difficulties = await _recipeService.GetAll();
 
@@ -81,7 +93,7 @@ namespace RazorPages.Pages
                 Preparation = Preparation,
                 CategoryId = CategoryId,
                 DifficultId = DifficultId,
-                Ingredients = Ingredients.Select(i => new RecipeIngredient
+                Ingredients = ingredientesInput.Select(i => new RecipeIngredient
                 {
                     IngredientId = i.IngredientId,
                     Unity = i.Unity,

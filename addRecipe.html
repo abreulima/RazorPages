@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Delius&display=swap" rel="stylesheet">
+</head>
+
+<body class="font-[Delius]">
+
+	<div class="flex flex-col justify-center items-center bg-[url(/Images/bg-2.jpeg)] h-screen">
+
+		<form class="flex flex-col gap-2 bg-white border-3 rounded-sm p-5">
+
+			<h1 class="text-2xl mb-4 font-bold">Registo</h1>
+
+			<div class="flex justify-between gap-2">
+				<label class="text-lg font-bold">usuário</label>
+				<input class="rounded-sm border-2 bg-yellow-300 hover:bg-yellow-200 ">
+			</div>
+
+			<div class="flex justify-between gap-2">
+				<label class="text-lg font-bold">passe</label>
+				<input type="password" class="rounded-sm  border-2 bg-yellow-300 hover:bg-yellow-200 ">
+			</div>
+
+			<div class="flex justify-between gap-2">
+				<label class="text-lg font-bold">email</label>
+				<input type="email" class="rounded-sm border-2 bg-yellow-300 hover:bg-yellow-200 ">
+			</div>
+
+
+			addRecipe.html
+
+			
+			<button class="bg-yellow-300 hover:bg-yellow-200  font-bold border-3 rounded mt-4 p-2"
+				type="submit">enviar</button>
+
+			<span class="mt-4 bg-red-300 rounded p-1">Usuário já registrado.</span>
+
+			<div class="flex mt-4 justify-between">
+				<span>Já tens registo? <a class="font-bold bg-yellow-300 hover:bg-transparent" href="">Entrar</a></span>
+				<span><a class="font-bold bg-yellow-300 hover:bg-transparent" href="">Voltar</a></span>
+			</div>
+
+		</form>
+
+
+	</div>
+
+
+</body>
+
+</html>

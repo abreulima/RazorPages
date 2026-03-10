@@ -12,7 +12,7 @@ namespace DAL.Services
             this.ingredientRepository = ingredientRepository;
         }
 
-        public async Task<List<Ingredient>> GetAllAsync()
+        public async Task<List<Ingredient>> GetAll()
         {
             return await ingredientRepository.GetAll();
         }
