@@ -3351,7 +3351,7 @@
         // is useful for low frequency updates where sync behavior simplifies the
         // logic.
         // For high frequency updates (e.g. `resize` and `scroll` events), always
-        // prefer the async Popper#update method
+        // prefer the   Popper#update method
         forceUpdate: function forceUpdate() {
           if (isDestroyed) {
             return;
@@ -3409,7 +3409,7 @@
             }
           }
         },
-        // Async and optimistically optimized update – it will not be executed if
+        //   and optimistically optimized update – it will not be executed if
         // not necessary (debounced to run at most once-per-tick)
         update: debounce(function () {
           return new Promise(function (resolve) {

@@ -31,7 +31,7 @@ namespace DAL.Repositories
             _connString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<List<Ingredient>> GetAll()
+        public List<Ingredient> GetAll()
         {
             List<Ingredient> ingredients = new List<Ingredient>();
 
@@ -41,10 +41,10 @@ namespace DAL.Repositories
                 conn
             );
 
-            await conn.OpenAsync();
-            using SqlDataReader reader = await cmd.ExecuteReaderAsync();
+            conn.Open();
+            using SqlDataReader reader = cmd.ExecuteReader();
 
-            while (await reader.ReadAsync())
+            while (reader.Read())
             {
                 ingredients.Add(new Ingredient
                 {
@@ -56,7 +56,7 @@ namespace DAL.Repositories
             return ingredients;
         }
 
-        public async Task Add(Ingredient ingredient)
+        public void Add(Ingredient ingredient)
         {
 
             using SqlConnection conn = new SqlConnection(_connString);
@@ -68,12 +68,12 @@ namespace DAL.Repositories
 
             cmd.Parameters.AddWithValue("@Ingredient", ingredient.Name);
 
-            await conn.OpenAsync();
-            await cmd.ExecuteNonQueryAsync();
-            await conn.CloseAsync();
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
-        public async Task<bool> IsRegistered(string name)
+        public bool IsRegistered(string name)
         {
             using SqlConnection conn = new SqlConnection(_connString);
 
@@ -84,8 +84,8 @@ namespace DAL.Repositories
 
             cmd.Parameters.AddWithValue("@Ingredient", name);
 
-            await conn.OpenAsync();
-            int count = (int)await cmd.ExecuteScalarAsync();
+            conn.Open();
+            int count = (int)cmd.ExecuteScalar();
             return count > 0;
         }
 

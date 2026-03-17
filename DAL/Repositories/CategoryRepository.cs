@@ -31,7 +31,7 @@ namespace DAL.Repositories
             _connString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<List<Category>> GetAll()
+        public List<Category> GetAll()
         {
             List<Category> categories = new List<Category>();
             using SqlConnection conn = new SqlConnection(_connString);
@@ -41,10 +41,10 @@ namespace DAL.Repositories
                 conn
             );
 
-            await conn.OpenAsync();
-            using SqlDataReader reader = await cmd.ExecuteReaderAsync();
+            conn.Open();
+            using SqlDataReader reader = cmd.ExecuteReader();
 
-            while (await reader.ReadAsync())
+            while (reader.Read())
             {
                 categories.Add(new Category
                 {
@@ -57,7 +57,7 @@ namespace DAL.Repositories
         }
 
 
-        public async Task Add(Category category)
+        public void Add(Category category)
         {
 
             using SqlConnection conn = new SqlConnection(_connString);
@@ -69,12 +69,12 @@ namespace DAL.Repositories
 
             cmd.Parameters.AddWithValue("@Category", category.Name);
 
-            await conn.OpenAsync();
-            await cmd.ExecuteNonQueryAsync();
-            await conn.CloseAsync();
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
-        public async Task<bool> IsRegistered(string name)
+        public bool IsRegistered(string name)
         {
             using SqlConnection conn = new SqlConnection(_connString);
 
@@ -85,8 +85,8 @@ namespace DAL.Repositories
 
             cmd.Parameters.AddWithValue("@Category", name);
 
-            await conn.OpenAsync();
-            int count = (int)await cmd.ExecuteScalarAsync();
+            conn.Open();
+            int count = (int)cmd.ExecuteScalar();
             return count > 0;
         }
 

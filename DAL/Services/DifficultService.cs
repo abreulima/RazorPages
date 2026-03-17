@@ -12,13 +12,13 @@ namespace DAL.Services
             this.difficultRepository = difficultRepository;
         }
 
-        public async Task CreateDifficultAysnc(Difficult difficult)
+        public void CreateDifficultAysnc(Difficult difficult)
         {
-            await difficultRepository.Add(difficult);
+            difficultRepository.Add(difficult);
         }
-        public async Task<bool> IsRegistered(string name)
+        public bool IsRegistered(string name)
         {
-            return await difficultRepository.IsRegistered(name);
+            return difficultRepository.IsRegistered(name);
         }
 
     }

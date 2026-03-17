@@ -31,14 +31,14 @@ namespace DAL.Repositories
             _connString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<List<Recipe>> GetAll()
+        public List<Recipe> GetAll()
         {
             List<Recipe> recipe = new List<Recipe>();
 
             return recipe;
         }
 
-        public async Task Add(Recipe recipe)
+        public void Add(Recipe recipe)
         {
 
             using SqlConnection conn = new SqlConnection(_connString);
@@ -54,8 +54,8 @@ namespace DAL.Repositories
             cmd.Parameters.AddWithValue("@CategoryId", recipe.CategoryId);
             cmd.Parameters.AddWithValue("@DifficultId", recipe.DifficultId);
 
-            await conn.OpenAsync();
-            int recipeId = Convert.ToInt32(await cmd.ExecuteScalarAsync());
+            conn.Open();
+            int recipeId = Convert.ToInt32(cmd.ExecuteScalar());
 
             foreach (var ingredient in recipe.Ingredients)
             {
@@ -68,10 +68,10 @@ namespace DAL.Repositories
                 ingCmd.Parameters.AddWithValue("@IngredientId", ingredient.IngredientId);
                 ingCmd.Parameters.AddWithValue("@Unity", ingredient.Unity);
                 ingCmd.Parameters.AddWithValue("@Quantity", ingredient.Quantity);
-                await ingCmd.ExecuteNonQueryAsync();
+                ingCmd.ExecuteNonQuery();
             }
 
-            await conn.CloseAsync();
+            conn.Close();
         }
 
     }

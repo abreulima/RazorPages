@@ -34,16 +34,18 @@ namespace RazorPages.Pages
         {
         }
 
-        public async Task<IActionResult> OnPost()
+        public IActionResult OnPost()
         {
 
-            CurrentUser = await _userRepository.GetUserLogin(Email, Password);
+            CurrentUser =  _userRepository.GetUserLogin(Email, Password);
 
             if (CurrentUser == null)
             {
                 Error = true;
                 return Page();
             }
+
+            var debug = CurrentUser.IsAdmin;
 
             HttpContext.Session.SetString("Name", CurrentUser.FirstName);
             HttpContext.Session.SetString("UserId", CurrentUser.Id.ToString());

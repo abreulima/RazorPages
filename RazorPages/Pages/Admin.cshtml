@@ -1,0 +1,17 @@
+﻿@page
+@model RazorPages.Pages.AdminModel
+
+@{
+    ViewData["Title"] = "Registo";
+	Layout = "_LayoutForm";
+}
+
+<h1>Página do Administrador</h1>
+
+<div class="flex justify-between gap-2">
+	<span><a href="/Admin/ActivateUser">Aprovar Usuários</a></span>
+	<span><a href="/Admin/ActivateRecipe">Aprovar Receitas</a></span>
+	<span><a href="/Admin/Ingredient">Adicionar Ingrediente</a></span>
+	<span><a href="/Admin/Category">Adicionar Categorias</a></span>
+</div>
+

@@ -32,11 +32,10 @@ namespace RazorPages.Pages.Admin
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public   IActionResult OnPost ()
         {
 
-
-            bool isIngredientRegistered = await ingredientService.IsRegistered(Name);
+            bool isIngredientRegistered =  ingredientService.IsRegistered(Name);
 
             if (isIngredientRegistered)
             {
@@ -49,7 +48,7 @@ namespace RazorPages.Pages.Admin
                 Name = Name,
             };
 
-            await ingredientService.CreateIngredient(ingredient);
+             ingredientService.CreateIngredient(ingredient);
 
             return Page();
         }

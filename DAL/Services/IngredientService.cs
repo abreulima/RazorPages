@@ -5,27 +5,26 @@ namespace DAL.Services
 {
     public class IngredientService
     {
-        private readonly IngredientRepository ingredientRepository;
+        private IngredientRepository ingredientRepository;
 
         public IngredientService(IngredientRepository ingredientRepository)
         {
             this.ingredientRepository = ingredientRepository;
         }
 
-        public async Task<List<Ingredient>> GetAll()
+        public List<Ingredient> GetAll()
         {
-            return await ingredientRepository.GetAll();
+            return ingredientRepository.GetAll();
         }
 
-        public async Task CreateIngredient(Ingredient ingredient)
+        public void CreateIngredient(Ingredient ingredient)
         {
-            await ingredientRepository.Add(ingredient);
-
+            ingredientRepository.Add(ingredient);
         }
 
-        public async Task<bool> IsRegistered(string name)
+        public bool IsRegistered(string name)
         {
-            return await ingredientRepository.IsRegistered(name);
+            return ingredientRepository.IsRegistered(name);
         }
 
     }

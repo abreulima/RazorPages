@@ -5,28 +5,28 @@ namespace DAL.Services
 {
     public class UserService
     {
-        private readonly UserRepository userRepository;
+        private UserRepository userRepository;
 
         public UserService(UserRepository userRepository)
         {
             this.userRepository = userRepository;
         }
 
-        public async Task<List<User>> GetAllUsersAsync()
+        public List<User> GetAllUsers()
         {
-            return await userRepository.GetAll();
+            return userRepository.GetAll();
         }
 
         // Get By Id
 
-        public async Task CreateUser(User user)
+        public void CreateUser(User user)
         {
-            await userRepository.Add(user);
+            userRepository.Add(user);
         }
 
-        public async Task<bool> IsRegistered(string email)
+        public bool IsRegistered(string email)
         {
-            return await userRepository.IsRegistered(email);
+            return userRepository.IsRegistered(email);
         }
 
 

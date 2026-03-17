@@ -5,25 +5,25 @@ namespace DAL.Services
 {
     public class RecipeService
     {
-        private readonly RecipeRepository _recipeRepository;
-        private readonly CategoryRepository _categoryRepository;
-        private readonly DifficultRepository _difficultRepository;
+        private RecipeRepository _recipeRepository;
+        private CategoryRepository _categoryRepository;
+        private  DifficultRepository _difficultRepository;
 
-        public RecipeService(RecipeRepository _recipeRepository, CategoryRepository _categoryRepository, DifficultRepository _difficultRepository)
+        public RecipeService(RecipeRepository recipeRepository, CategoryRepository categoryRepository, DifficultRepository difficultRepository)
         {
-            _recipeRepository = _recipeRepository;
-            _categoryRepository = _categoryRepository;
-            _difficultRepository = _difficultRepository;
+            _recipeRepository = recipeRepository;
+            _categoryRepository = categoryRepository;
+            _difficultRepository = difficultRepository;
         }
 
-        public async Task<List<Recipe>> GetAll()
+        public List<Recipe> GetAll()
         {
-            return await _recipeRepository.GetAll();
+            return _recipeRepository.GetAll();
         }
 
-        public async Task Add(Recipe recipe)
+        public void Add(Recipe recipe)
         {
-            await _recipeRepository.Add(recipe);
+            _recipeRepository.Add(recipe);
         }
 
         // Update

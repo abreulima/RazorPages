@@ -664,7 +664,7 @@ var i,
 		return 0;
 	},
 
-	booleans = "checked|selected|async|autofocus|autoplay|controls|defer|disabled|hidden|ismap|" +
+	booleans = "checked|selected| |autofocus|autoplay|controls|defer|disabled|hidden|ismap|" +
 		"loop|multiple|open|readonly|required|scoped",
 
 	// Regular expressions
@@ -3588,7 +3588,7 @@ jQuery.extend( {
 							} else {
 
 								// Call an optional hook to record the error, in case of exception
-								// since it's otherwise lost when execution goes async
+								// since it's otherwise lost when execution goes  
 								if ( jQuery.Deferred.getErrorHook ) {
 									process.error = jQuery.Deferred.getErrorHook();
 
@@ -3772,16 +3772,16 @@ jQuery.extend( {
 // warn about them ASAP rather than swallowing them by default.
 var rerrorNames = /^(Eval|Internal|Range|Reference|Syntax|Type|URI)Error$/;
 
-// If `jQuery.Deferred.getErrorHook` is defined, `asyncError` is an error
-// captured before the async barrier to get the original error cause
+// If `jQuery.Deferred.getErrorHook` is defined, ` Error` is an error
+// captured before the   barrier to get the original error cause
 // which may otherwise be hidden.
-jQuery.Deferred.exceptionHook = function( error, asyncError ) {
+jQuery.Deferred.exceptionHook = function( error,  Error ) {
 
 	// Support: IE 8 - 9 only
 	// Console exists when dev tools are open, which can happen at any time
 	if ( window.console && window.console.warn && error && rerrorNames.test( error.name ) ) {
 		window.console.warn( "jQuery.Deferred exception: " + error.message,
-			error.stack, asyncError );
+			error.stack,  Error );
 	}
 };
 
@@ -3861,7 +3861,7 @@ function completed() {
 if ( document.readyState === "complete" ||
 	( document.readyState !== "loading" && !document.documentElement.doScroll ) ) {
 
-	// Handle it asynchronously to allow scripts the opportunity to delay ready
+	// Handle it  hronously to allow scripts the opportunity to delay ready
 	window.setTimeout( jQuery.ready );
 
 } else {
@@ -5544,7 +5544,7 @@ jQuery.each( { focus: "focusin", blur: "focusout" }, function( type, delegateTyp
 			// Support: IE 11+
 			// Attach a single focusin/focusout handler on the document while someone wants
 			// focus/blur. This is because the former are synchronous in IE while the latter
-			// are async. In other browsers, all those handlers are invoked synchronously.
+			// are  . In other browsers, all those handlers are invoked synchronously.
 
 			// `handle` from private data would already wrap the event, but we need
 			// to change the `type` here.
@@ -9127,7 +9127,7 @@ jQuery.extend( {
 		isLocal: rlocalProtocol.test( location.protocol ),
 		global: true,
 		processData: true,
-		async: true,
+		 : true,
 		contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 
 		/*
@@ -9510,7 +9510,7 @@ jQuery.extend( {
 			}
 
 			// Timeout
-			if ( s.async && s.timeout > 0 ) {
+			if ( s.  && s.timeout > 0 ) {
 				timeoutTimer = window.setTimeout( function() {
 					jqXHR.abort( "timeout" );
 				}, s.timeout );
@@ -9702,7 +9702,7 @@ jQuery._evalUrl = function( url, options, doc ) {
 		type: "GET",
 		dataType: "script",
 		cache: true,
-		async: false,
+		 : false,
 		global: false,
 
 		// Only evaluate the response if it is successful (gh-4126)
@@ -9828,7 +9828,7 @@ jQuery.ajaxTransport( function( options ) {
 				xhr.open(
 					options.type,
 					options.url,
-					options.async,
+					options. ,
 					options.username,
 					options.password
 				);

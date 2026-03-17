@@ -52,13 +52,13 @@ namespace RazorPages.Pages
             _ingredientService = ingredientService;
         }
 
-        public async void OnGet()
+        public   void OnGet()
         {
 
 
             string? name = HttpContext.Session.GetString("Name");
             Console.WriteLine("dsad" + name);
-            if (name.IsNullOrEmpty)
+            if (name.IsNullOrEmpty())
             {
                 RedirectToPage("/Login");
                 return;
@@ -66,7 +66,7 @@ namespace RazorPages.Pages
 
             Console.WriteLine("Hello");
 
-            AvailableIngredients = await _ingredientService.GetAll();
+            AvailableIngredients =  _ingredientService.GetAll();
 
 
             foreach (var ingredient in AvailableIngredients)
@@ -74,12 +74,12 @@ namespace RazorPages.Pages
                 Console.WriteLine(ingredient.Name);
             }
 
-            //Categories = await _recipeService.GetAll();
-            //Difficulties = await _recipeService.GetAll();
+            //Categories =  _recipeService.GetAll();
+            //Difficulties =  _recipeService.GetAll();
 
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public   IActionResult OnPost ()
         {
 
             int? creatorId = HttpContext.Session.GetInt32("UserId");
@@ -101,7 +101,7 @@ namespace RazorPages.Pages
                 }).ToList()
             };
 
-            await _recipeService.Add(recipe);
+             _recipeService.Add(recipe);
             return RedirectToPage("/Index");
 
         }

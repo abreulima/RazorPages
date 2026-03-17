@@ -39,10 +39,10 @@ namespace RazorPages.Pages
         {
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public   IActionResult OnPost ()
         {
 
-            bool isEmailRegistered = await userService.IsRegistered(email);
+            bool isEmailRegistered =  userService.IsRegistered(email);
 
             if (isEmailRegistered)
             {
@@ -58,7 +58,7 @@ namespace RazorPages.Pages
                 Email = email,
             };
 
-            await userService.CreateUser(user);
+             userService.CreateUser(user);
 
             return RedirectToPage("/Login");
         }

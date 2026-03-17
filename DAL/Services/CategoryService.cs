@@ -12,19 +12,19 @@ namespace DAL.Services
             this.categoryRepository = _categoryRepository;
         }
 
-        public async Task<List<Category>> GetAll()
+        public List<Category> GetAll()
         {
-            return await categoryRepository.GetAll();
+            return categoryRepository.GetAll();
         }
 
-        public async Task CreateCategory(Category category)
+        public void CreateCategory(Category category)
         {
-            await categoryRepository.Add(category);
+            categoryRepository.Add(category);
         }
 
-        public async Task<bool> IsRegistered(string name)
+        public bool IsRegistered(string name)
         {
-            return await categoryRepository.IsRegistered(name);
+            return categoryRepository.IsRegistered(name);
         }
 
         // Update

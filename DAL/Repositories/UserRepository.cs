@@ -31,7 +31,7 @@ namespace DAL.Repositories
             _connString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public async Task<List<User>> GetAll()
+        public List<User> GetAll()
         {
 
             List<User> users = new List<User>();
@@ -42,19 +42,19 @@ namespace DAL.Repositories
                 conn
             );
 
-            await conn.OpenAsync();
+            conn.Open();
 
-            using SqlDataReader reader = await cmd.ExecuteReaderAsync();
+            using SqlDataReader reader = cmd.ExecuteReader();
 
-            while (await reader.ReadAsync())
+            while (reader.Read())
             {
                 users.Add(new User
-                    {
-                        Id = reader.GetInt32(0),
-                        FirstName = reader.GetString(1),
-                        LastName = reader.GetString(2),
-                        Email = reader.GetString(3),
-                        CreationDate = reader.GetDateTime(4)
+                {
+                    Id = reader.GetInt32(0),
+                    FirstName = reader.GetString(1),
+                    LastName = reader.GetString(2),
+                    Email = reader.GetString(3),
+                    CreationDate = reader.GetDateTime(4)
                 }
                 );
 
@@ -63,7 +63,7 @@ namespace DAL.Repositories
             return users;
         }
 
-        public async Task Add(User user)
+        public void Add(User user)
         {
 
             using SqlConnection conn = new SqlConnection(_connString);
@@ -80,12 +80,12 @@ namespace DAL.Repositories
             cmd.Parameters.AddWithValue("@Password", user.Password);
 
 
-            await conn.OpenAsync();
-            await cmd.ExecuteNonQueryAsync();
-            await conn.CloseAsync();
+            conn.Open();
+            cmd.ExecuteNonQuery();
+            conn.Close();
         }
 
-        public async Task<User?> GetUserLogin(string email, string password)
+        public User? GetUserLogin(string email, string password)
         {
             using SqlConnection conn = new SqlConnection(_connString);
             using SqlCommand cmd = new SqlCommand(
@@ -97,10 +97,10 @@ namespace DAL.Repositories
             cmd.Parameters.AddWithValue("@Password", password);
             //cmd.Parameters.AddWithValue("@Password", PasswordHelper.Md5(password));
 
-            await conn.OpenAsync();
-            using SqlDataReader reader = await cmd.ExecuteReaderAsync();
+            conn.Open();
+            using SqlDataReader reader = cmd.ExecuteReader();
 
-            if (await reader.ReadAsync())
+            if (reader.Read())
             {
                 return new User
                 {
@@ -116,7 +116,7 @@ namespace DAL.Repositories
 
         }
 
-        public async Task<bool> IsRegistered(string email)
+        public bool IsRegistered(string email)
         {
             using SqlConnection conn = new SqlConnection(_connString);
 
@@ -127,8 +127,8 @@ namespace DAL.Repositories
 
             cmd.Parameters.AddWithValue("@Email", email);
 
-            await conn.OpenAsync();
-            int count = (int)await cmd.ExecuteScalarAsync();
+            conn.Open();
+            int count = (int)cmd.ExecuteScalar();
             return count > 0;
         }
 

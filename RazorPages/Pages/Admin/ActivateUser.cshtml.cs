@@ -22,15 +22,15 @@ namespace RazorPages.Pages.Admin
 
         public IActionResult OnGet()
         {
-            string? isAdmin = HttpContext.Session.GetString("IsAdmin");
 
+            string? isAdmin = HttpContext.Session.GetString("IsAdmin");
             if (isAdmin != "True")
                 return RedirectToPage("/Login");
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public   IActionResult OnPost ()
         {
 
             Console.WriteLine(Name);
@@ -40,7 +40,7 @@ namespace RazorPages.Pages.Admin
                 Name = Name,
             };
 
-            await categoryService.CreateCategory(category);
+             categoryService.CreateCategory(category);
 
             return Page();
         }

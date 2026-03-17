@@ -32,10 +32,10 @@ namespace RazorPages.Pages.Admin
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public   IActionResult OnPost ()
         {
 
-            bool isCategoryRegistered = await categoryService.IsRegistered(Name);
+            bool isCategoryRegistered =  categoryService.IsRegistered(Name);
 
             if (isCategoryRegistered)
             {
@@ -48,7 +48,7 @@ namespace RazorPages.Pages.Admin
                 Name = Name,
             };
 
-            await categoryService.CreateCategory(category);
+             categoryService.CreateCategory(category);
 
             return Page();
         }

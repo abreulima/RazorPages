@@ -53,15 +53,16 @@ namespace RazorPages
 
             app.UseHttpsRedirection();
 
-            app.UseRouting();
-
-            app.UseAuthorization();
-
             // Permite acesso ao arquivos estáicos na pasta wwwroot
             app.UseStaticFiles();
 
             // Permite o uso de sessões, verifique método AddSession acima
             app.UseSession();
+
+            app.UseRouting();
+
+            app.UseAuthorization();
+
 
             app.MapStaticAssets();
             app.MapRazorPages()
