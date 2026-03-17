@@ -16,9 +16,9 @@ namespace DAL.Services
             _difficultRepository = difficultRepository;
         }
 
-        public List<Recipe> GetAll()
+        public List<Recipe> GetAll(bool isPending)
         {
-            return _recipeRepository.GetAll();
+            return _recipeRepository.GetAll(isPending);
         }
 
         public void Add(Recipe recipe)

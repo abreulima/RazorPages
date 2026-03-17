@@ -9,6 +9,7 @@ namespace DAL.Models
         public int CategoryId { get; set; }
         public int DifficultId { get; set; }
         public DateTime CreationDate { get; set; }
-        public List<RecipeIngredient> Ingredients { get; set; } = new();
+        public List<RecipeIngredient> Ingredients { get; set; } = new List<RecipeIngredient>();
+        public List<RecipeRating> Ratings { get; set; } = new List<RecipeRating>();
     }
 }

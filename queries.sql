@@ -16,7 +16,7 @@ CREATE TABLE Users
     email       nvarchar(255) NOT NULL,
     password    nvarchar(255) NOT NULL,
     isApproved  bit DEFAULT 0,
-    isAdmin     bit DEFAULT 0,
+    isAdmin     bit DEFAULT 0
 )
 
 /* 0, Ivan, Abreu, ivan.rupt@gmail.com, 1, 1 */

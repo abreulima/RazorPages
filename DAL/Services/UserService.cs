@@ -12,12 +12,10 @@ namespace DAL.Services
             this.userRepository = userRepository;
         }
 
-        public List<User> GetAllUsers()
+        public List<User> GetAllUsers(bool is)
         {
             return userRepository.GetAll();
         }
-
-        // Get By Id
 
         public void CreateUser(User user)
         {
@@ -29,10 +27,6 @@ namespace DAL.Services
             return userRepository.IsRegistered(email);
         }
 
-
-        // Update
-
-        // Delete
 
     }
 }

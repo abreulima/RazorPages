@@ -31,10 +31,13 @@ namespace DAL.Repositories
             _connString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public List<Recipe> GetAll()
+        public List<Recipe> GetAll(bool isPending)
         {
             List<Recipe> recipe = new List<Recipe>();
+            if (isPending)
+            {
 
+            }
             return recipe;
         }
 

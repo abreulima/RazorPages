@@ -10,6 +10,15 @@
 
 	<h1>Receita</h1>
 
+
+	<div class="flex justify-between gap-2">
+		<label>É um pastel de nata?</label>
+		<input onclick="isNatas(this); return false;" type="checkbox" checked>
+	</div>
+
+
+	<div id="content">
+
 	<div class="flex justify-between gap-2">
 		<label>Título</label>
 		<input name="titleName" type="text">
@@ -54,6 +63,8 @@
 
 	<button type="submit">enviar</button>
 
+	</div>
+	
 	@if (Model.Error)
 	{
 		<span class="alert">Usuário já registrado.</span>
@@ -65,3 +76,25 @@
 	</div>
 
 </form>
+
+<script>
+
+	var i = 0;
+	var original = document.getElementById('ingredientForm');
+
+	function addMoreIngredient() {
+		var clone = original.cloneNode(true);
+		clone.id = "ingredientForm" + ++i;
+		original.parentNode.appendChild(clone);
+	}
+
+	function isNatas(checkbox) {
+		var formContent = document.getElementById("content");
+		if (checkbox.checked)
+			formContent.style.display = "block"
+		else
+			formContent.style.display = "none";
+	}
+
+
+</script>

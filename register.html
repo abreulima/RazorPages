@@ -21,75 +21,89 @@
 
 			<h1 class="text-2xl mb-4 font-bold">Registo</h1>
 
-			<div class="flex justify-between gap-2">
-				<label class="text-lg font-bold">usuário</label>
-				<input class="rounded-sm border-2 bg-yellow-300 hover:bg-yellow-200 ">
+
+					<div class="flex justify-between gap-2">
+				<label class="text-lg font-bold">É um pastel de nata?</label>
+				<input id="checkNatas" onclick="isNatas();" type="checkbox" checked>
 			</div>
 
-			<div class="flex justify-between gap-2">
-				<label class="text-lg font-bold">passe</label>
-				<input type="password" class="rounded-sm  border-2 bg-yellow-300 hover:bg-yellow-200 ">
-			</div>
-
-			<div class="flex flex-col justify-between gap-2">
-				<label class="text-lg font-bold">Ingredientes</label>
-
-				<div class="flex flex-col gap-2">
-
-					<div id="ingredientForm" class="flex gap-2">
-						<select class="rounded-sm border-2  bg-yellow-300 hover:bg-yellow-200 " name="cars" id="cars">
-							<option value="volvo">Volvo</option>
-							<option value="saab">Saab</option>
-							<option value="mercedes">Mercedes</option>
-							<option value="audi">Audi</option>
-						</select>
-						<input type="password" size="10" class="rounded-sm  border-2 bg-yellow-300 hover:bg-yellow-200"
-							placeholder="Qtd. (1)">
-						<input type="password" size="10" class="rounded-sm  border-2 bg-yellow-300 hover:bg-yellow-200"
-							placeholder="Unidade (kg)">
-					</div>
+			
+			
+			<div id="content">
+				
+				<div class="flex justify-between gap-2">
+					<label class="text-lg font-bold">Titulo</label>
+					<input class="rounded-sm border-2 bg-yellow-300 hover:bg-yellow-200 ">
 				</div>
-
-
-				<button onclick="addMoreIngredient(); return false;" class="bg-yellow-300 hover:bg-yellow-200 font-bold border-2 rounded" >adicionar
-					mais</button>
-
-			</div>
-
-			<div class="flex justify-between gap-2">
-				<label class="text-lg font-bold">email</label>
-				<input type="email" class="rounded-sm border-2 bg-yellow-300 hover:bg-yellow-200 ">
-			</div>
-
-			<button class="bg-yellow-300 hover:bg-yellow-200  font-bold border-3 rounded mt-4 p-2"
-				type="submit">enviar</button>
-
-			<span class="mt-4 bg-red-300 rounded p-1">Usuário já registrado.</span>
-
-			<div class="flex mt-4 justify-between">
-				<span>Já tens registo? <a class="font-bold bg-yellow-300 hover:bg-transparent" href="">Entrar</a></span>
-				<span><a class="font-bold bg-yellow-300 hover:bg-transparent" href="">Voltar</a></span>
-			</div>
-
-		</form>
-
-
+				
+				<div class="flex flex-col justify-between gap-2">
+					<label class="text-lg font-bold">Ingredientes</label>
+					
+					<div class="flex flex-col gap-2">
+						
+						<div id="ingredientForm" class="flex gap-2">
+							<select class="rounded-sm border-2  bg-yellow-300 hover:bg-yellow-200 " name="cars" id="cars">
+								<option value="volvo">Leite</option>
+								<option value="saab">Saab</option>
+								<option value="mercedes">Mercedes</option>
+								<option value="audi">Audi</option>
+							</select>
+							<input type="password" size="10" class="rounded-sm  border-2 bg-yellow-300 hover:bg-yellow-200"
+							placeholder="Qtd. (1)">
+							<input type="password" size="10" class="rounded-sm  border-2 bg-yellow-300 hover:bg-yellow-200"
+							placeholder="Unidade (kg)">
+						</div>
+					</div>
+					
+					
+					<button onclick="addMoreIngredient(); return false;" class="bg-yellow-300 hover:bg-yellow-200 font-bold border-2 rounded">
+						adicionar
+						mais</button>
+						
+					
+					<div class="flex justify-between gap-2 mt">
+						<label class="text-lg font-bold">Preparacao</label>
+						<input type="email" class="rounded-sm border-2 bg-yellow-300 hover:bg-yellow-200 ">
+					</div>
+					
+					<button class="bg-yellow-300 hover:bg-yellow-200  font-bold border-3 rounded mt-4 p-2"
+					type="submit">enviar</button>
+					
+				</div>
+	
+				</form>
+				
+				
 	</div>
-
-
-
+	
+	
+	
 
 	<script>
 
 		var i = 0;
 		var original = document.getElementById('ingredientForm');
 
-		function addMoreIngredient() {
-			var clone = original.cloneNode(true); // "deep" clone
+
+		function addMoreIngredient() 
+		{
+			var clone = original.cloneNode(true);
 			clone.id = "ingredientForm" + ++i;
-			// or clone.id = ""; if the divs don't need an ID
 			original.parentNode.appendChild(clone);
 		}
+
+		var checkNatas = document.getElementById("checkNatas");
+
+		function isNatas()
+		{
+
+			var formContent = document.getElementById("content");
+			if (checkNatas.checked)
+				formContent.style.display = "block"
+			else
+				formContent.style.display = "none";
+		}
+
 	</script>
 
 
