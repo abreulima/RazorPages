@@ -12,7 +12,7 @@ namespace DAL.Services
             this.userRepository = userRepository;
         }
 
-        public List<User> GetAllUsers(bool is)
+        public List<User> GetAllUsers(bool isActive)
         {
             return userRepository.GetAll();
         }
