@@ -9,15 +9,17 @@ namespace RazorPages.Pages.Admin
     public class ActiveUserModel : PageModel
     {
 
-        private readonly CategoryService categoryService;
+        private readonly UserService _userService;
 
         [BindProperty]
-        [Required]
-        public string Name { get; set; }
+        public int UserId { get; set; }
 
-        public ActiveUserModel(CategoryService categoryService)
+
+        public List<User> Users { get; set; } = new List<User>();
+
+        public ActiveUserModel(UserService userService)
         {
-            this.categoryService = categoryService;
+            this._userService = userService;
         }
 
         public IActionResult OnGet()
@@ -27,22 +29,24 @@ namespace RazorPages.Pages.Admin
             if (isAdmin != "True")
                 return RedirectToPage("/Login");
 
+            Users = _userService.GetAll();
+
             return Page();
         }
 
-        public   IActionResult OnPost ()
+        public IActionResult OnPost ()
         {
 
-            Console.WriteLine(Name);
+            var user = _userService.GetUserById(UserId);
 
-            Category category = new Category
+            if (user != null)
             {
-                Name = Name,
-            };
+                user.IsApproved = !user.IsApproved;
+                _userService.UpdateUser(user);
+            }
 
-             categoryService.CreateCategory(category);
 
-            return Page();
+            return RedirectToPage();
         }
     }
 }

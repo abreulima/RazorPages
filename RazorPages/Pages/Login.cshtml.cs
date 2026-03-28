@@ -20,7 +20,7 @@ namespace RazorPages.Pages
         public string Password { get; set; }
 
         public User? CurrentUser { get; set; }
-        public bool Error { get; set; } = false;
+        public string? Error { get; set; }
 
 
         private readonly UserRepository _userRepository;
@@ -36,21 +36,24 @@ namespace RazorPages.Pages
 
         public IActionResult OnPost()
         {
+            var user = _userRepository.GetUserLogin(Email, Password);
 
-            CurrentUser =  _userRepository.GetUserLogin(Email, Password);
-
-            if (CurrentUser == null)
+            if (user == null)
             {
-                Error = true;
+                Error = "Email ou passe errada.";
                 return Page();
             }
 
-            var debug = CurrentUser.IsAdmin;
+            if (!user.IsApproved)
+            {
+                Error = "Usuario pendente de ativacao.";
+                return Page();
+            }
 
-            HttpContext.Session.SetString("Name", CurrentUser.FirstName);
-            HttpContext.Session.SetString("UserId", CurrentUser.Id.ToString());
-            HttpContext.Session.SetString("Email", CurrentUser.Email);
-            HttpContext.Session.SetString("IsAdmin", CurrentUser.IsAdmin.ToString());
+            HttpContext.Session.SetString("Name", user.FirstName);
+            HttpContext.Session.SetInt32("UserId", user.Id);
+            HttpContext.Session.SetString("Email", user.Email);
+            HttpContext.Session.SetString("IsAdmin", user.IsAdmin.ToString());
 
             return RedirectToPage("/Index");
         }

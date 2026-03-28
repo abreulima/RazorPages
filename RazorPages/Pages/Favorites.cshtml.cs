@@ -5,24 +5,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace RazorPages.Pages
 {
-
-    public class IndexModel : PageModel
+    public class FavoritesModel : PageModel
     {
 
-        private readonly RecipeService _recipeService;
-        public List<Recipe> TopRecipes { get; set; } = new List<Recipe>();
-        public bool IsLogged { get; set; }
 
-        public IndexModel(RecipeService recipeService)
+        private readonly RecipeService _recipeService;
+
+        public FavoritesModel(RecipeService recipeService)
         {
             _recipeService = recipeService;
         }
 
-        public void OnGet()
+        public List<Recipe> Recipes { get; set; } = new List<Recipe>();
+        public IActionResult OnGet()
         {
-            IsLogged = HttpContext.Session.GetInt32("UserId") != null;
             int? userId = HttpContext.Session.GetInt32("UserId");
-            TopRecipes = _recipeService.GetTopRecipes(10, userId);
+
+            if (userId == null)
+                return RedirectToPage("/Login");
+            
+            Recipes = _recipeService.GetFavoritesByUser(userId);
+
+            return Page();
         }
 
         public IActionResult OnPostFavorite(int recipeId)

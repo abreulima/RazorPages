@@ -12,7 +12,7 @@ namespace DAL.Services
             this.userRepository = userRepository;
         }
 
-        public List<User> GetAllUsers(bool isActive)
+        public List<User> GetAll()
         {
             return userRepository.GetAll();
         }
@@ -27,6 +27,16 @@ namespace DAL.Services
             return userRepository.IsRegistered(email);
         }
 
+
+        public User? GetUserById(int id)
+        {
+            return userRepository.GetUserById(id);
+        }
+
+        public void UpdateUser(User user)
+        { 
+            userRepository.UpdateUser(user);
+        }
 
     }
 }

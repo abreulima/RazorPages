@@ -19,6 +19,8 @@ namespace RazorPages.Pages
 
         private readonly IngredientService _ingredientService;
         private readonly RecipeService _recipeService;
+        private readonly CategoryService _categoryService;
+        private readonly DifficultService _difficultService;
 
         [BindProperty]
         [Required]
@@ -46,33 +48,30 @@ namespace RazorPages.Pages
         public bool Error { get; set; } = false;
 
 
-        public AddRecipeModel(RecipeService recipeService, IngredientService ingredientService)
+        public AddRecipeModel(RecipeService recipeService, IngredientService ingredientService,
+        CategoryService categoryService, DifficultService difficultService)
         {
             _recipeService = recipeService;
             _ingredientService = ingredientService;
+            _categoryService = categoryService;
+            _difficultService = difficultService;
         }
 
-        public   void OnGet()
+        public IActionResult OnGet()
         {
 
 
             string? name = HttpContext.Session.GetString("Name");
-            Console.WriteLine("dsad" + name);
-            if (name.IsNullOrEmpty())
-            {
-                RedirectToPage("/Login");
-                return;
-            }
 
-            Console.WriteLine("Hello");
+            if (name.IsNullOrEmpty())
+                return RedirectToPage("/Login");
 
             AvailableIngredients =  _ingredientService.GetAll();
+            AvailableIngredients = _ingredientService.GetAll();
+            Categories = _categoryService.GetAll();
+            Difficulties = _difficultService.GetAll();
 
-
-            foreach (var ingredient in AvailableIngredients)
-            {
-                Console.WriteLine(ingredient.Name);
-            }
+            return Page();
 
             //Categories =  _recipeService.GetAll();
             //Difficulties =  _recipeService.GetAll();
@@ -83,6 +82,8 @@ namespace RazorPages.Pages
         {
 
             int? creatorId = HttpContext.Session.GetInt32("UserId");
+            
+
             if (creatorId == null)
                 return RedirectToPage("/Login");
 

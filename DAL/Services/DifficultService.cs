@@ -12,7 +12,12 @@ namespace DAL.Services
             this.difficultRepository = difficultRepository;
         }
 
-        public void CreateDifficultAysnc(Difficult difficult)
+        public List<Difficult> GetAll()
+        {
+            return difficultRepository.GetAll();
+        }
+
+        public void CreateDifficult(Difficult difficult)
         {
             difficultRepository.Add(difficult);
         }

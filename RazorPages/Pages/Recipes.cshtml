@@ -1,14 +1,11 @@
 ﻿@page
-@model IndexModel
+@model RazorPages.Pages.RecipesModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Receitas";
 }
 
-
-<h1 class="py-5 text-xl">As Melhores!</h1>
-
 <div class="grid grid-cols-4 gap-4">
-    @foreach (var recipe in Model.TopRecipes)
+    @foreach (var recipe in Model.Receitas)
     {
         <div class="bg-white border-2 rounded-sm p-3 transition duration-300 hover:shadow-lg hover:-translate-y-1">
 

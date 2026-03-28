@@ -38,7 +38,7 @@ namespace DAL.Repositories
 
             using SqlConnection conn = new SqlConnection(_connString);
             using SqlCommand cmd = new SqlCommand(
-                "SELECT ID, FirstName, LastName, Email, CreationDate FROM Users",
+                "SELECT ID, FirstName, LastName, Email, IsApproved  FROM Users ORDER BY ID",
                 conn
             );
 
@@ -54,7 +54,7 @@ namespace DAL.Repositories
                     FirstName = reader.GetString(1),
                     LastName = reader.GetString(2),
                     Email = reader.GetString(3),
-                    CreationDate = reader.GetDateTime(4)
+                    IsApproved = reader.GetBoolean(4)
                 }
                 );
 
@@ -76,8 +76,8 @@ namespace DAL.Repositories
             cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
             cmd.Parameters.AddWithValue("@LastName", user.LastName);
             cmd.Parameters.AddWithValue("@Email", user.Email);
-            //cmd.Parameters.AddWithValue("@Password", PasswordHelper.Md5(user.Password));
-            cmd.Parameters.AddWithValue("@Password", user.Password);
+            cmd.Parameters.AddWithValue("@Password", PasswordHelper.Md5(user.Password));
+            //cmd.Parameters.AddWithValue("@Password", user.Password);
 
 
             conn.Open();
@@ -89,31 +89,28 @@ namespace DAL.Repositories
         {
             using SqlConnection conn = new SqlConnection(_connString);
             using SqlCommand cmd = new SqlCommand(
-                "SELECT ID, FirstName, LastName, Email, isAdmin " +
+                "SELECT ID, FirstName, LastName, Email, isAdmin, isApproved " +
                 "FROM Users WHERE Email = @Email AND Password = @Password",
                 conn
             );
+
             cmd.Parameters.AddWithValue("@Email", email);
-            cmd.Parameters.AddWithValue("@Password", password);
-            //cmd.Parameters.AddWithValue("@Password", PasswordHelper.Md5(password));
+            cmd.Parameters.AddWithValue("@Password", PasswordHelper.Md5(password));
 
             conn.Open();
             using SqlDataReader reader = cmd.ExecuteReader();
 
-            if (reader.Read())
-            {
-                return new User
-                {
-                    Id = reader.GetInt32(0),
-                    FirstName = reader.GetString(1),
-                    LastName = reader.GetString(2),
-                    Email = reader.GetString(3),
-                    IsAdmin = reader.GetBoolean(4),
-                    //CreationDate = reader.GetDateTime(4)
-                };
-            }
-            return null;
+            if (!reader.Read()) return null;
 
+            return new User
+            {
+                Id = reader.GetInt32(0),
+                FirstName = reader.GetString(1),
+                LastName = reader.GetString(2),
+                Email = reader.GetString(3),
+                IsAdmin = reader.GetBoolean(4),
+                IsApproved = reader.GetBoolean(5)
+            };
         }
 
         public bool IsRegistered(string email)
@@ -130,6 +127,62 @@ namespace DAL.Repositories
             conn.Open();
             int count = (int)cmd.ExecuteScalar();
             return count > 0;
+        }
+
+
+        public void UpdateUser(User user)
+        {
+            using SqlConnection conn = new SqlConnection(_connString);
+            using SqlCommand cmd = new SqlCommand(
+            @"UPDATE Users 
+            SET FirstName = @FirstName,
+            LastName = @LastName,
+            Email = @Email,
+            IsApproved = @IsApproved
+            WHERE ID = @Id",
+                conn
+            );
+
+            cmd.Parameters.AddWithValue("@FirstName", user.FirstName);
+            cmd.Parameters.AddWithValue("@LastName", user.LastName);
+            cmd.Parameters.AddWithValue("@Email", user.Email);
+            cmd.Parameters.AddWithValue("@IsApproved", user.IsApproved);
+            cmd.Parameters.AddWithValue("@Id", user.Id);
+
+            conn.Open();
+            cmd.ExecuteNonQuery();
+        }
+
+
+        public User? GetUserById(int id)
+        {
+            using SqlConnection conn = new SqlConnection(_connString);
+            using SqlCommand cmd = new SqlCommand(
+                "SELECT ID, FirstName, LastName, Email, IsApproved FROM Users WHERE ID = @Id",
+                conn
+            );
+
+            cmd.Parameters.AddWithValue("@Id", id);
+
+            conn.Open();
+
+            using SqlDataReader reader = cmd.ExecuteReader();
+
+            if (reader.Read())
+            {
+                return new User
+                {
+                    Id = reader.GetInt32(0),
+                    FirstName = reader.GetString(1),
+                    LastName = reader.GetString(2),
+                    Email = reader.GetString(3),
+                    IsApproved = reader.GetBoolean(4)
+                };
+            }
+
+            conn.Close();
+
+            return null;
         }
 
 

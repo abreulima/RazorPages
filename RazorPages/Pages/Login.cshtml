@@ -20,9 +20,9 @@
 		<input name="password" type="password" required>
 	</div>
 
-	@if (Model.Error)
+	@if (!string.IsNullOrEmpty(Model.Error))
 	{
-		<span class="alert">Senha errada ou usuário não encontrado.</span>
+		<span class="alert">@Model.Error</span>
 	}
 
 	<button type="submit">entrar</button>

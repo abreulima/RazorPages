@@ -8,6 +8,7 @@ namespace DAL.Models
         public string   Password { get; set; }
         public string   Email { get; set; }
         public bool IsAdmin { get; set; }
+        public bool IsApproved { get; set; }
         public DateTime CreationDate { get; set; }
     }
 }

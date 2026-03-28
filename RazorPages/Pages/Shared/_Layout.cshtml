@@ -1,4 +1,9 @@
-﻿<!doctype html>
+﻿@{
+	bool isLogged = Context.Session.GetString("UserId") != null;
+	bool isAdmin = Context.Session.GetString("IsAdmin") == "True";
+}
+
+<!doctype html>
 <html>
 
 <head>
@@ -17,28 +22,56 @@
 		<div class="flex justify-between items-center">
 			<h1 class="text-4xl font-bold">Apenas Natas</h1>
 			<div class="flex gap-2">
-				<a class="font-bold bg-yellow-300 hover:bg-transparent" href="">
+
+				<a class="font-bold bg-yellow-300 hover:bg-transparent" href="/recipes">
 					Receitas
 				</a>
-				<a class="font-bold bg-yellow-300 hover:bg-transparent" href="">
-					Visualizar
+				@if (isLogged)
+				{
+				<a class="font-bold bg-yellow-300 hover:bg-transparent" href="/addrecipe">
+					Adicionar Receita
 				</a>
+				<a class="font-bold bg-yellow-300 hover:bg-transparent" href="/favorites">
+				    Favoritas
+				</a>
+				<a class="font-bold bg-yellow-300 hover:bg-transparent" href="/logout">
+					Sair
+				</a>
+				<a class="font-bold bg-yellow-300 hover:bg-transparent" href="/profile">
+					Conta
+				</a>
+				}
+				else
+				{
 				<a class="font-bold bg-yellow-300 hover:bg-transparent" href="/register">
-				    Cadastro
+					Registro
 				</a>
 				<a class="font-bold bg-yellow-300 hover:bg-transparent" href="/login">
 					Entrar
 				</a>
+				}
+				@if (isAdmin)
+				{
+					<a class="font-bold bg-yellow-300 hover:bg-transparent" href="/admin">
+						Administrar
+					</a>
+				}
 			</div>
 		</div>
 	</header>
 
 	<div class="bg-[url(/Images/bg-2.jpeg)]">
 		<div class="mx-auto max-w-5xl my-12 py-8">
-			<form>
-				<input class="rounded-sm border-2 bg-yellow-300 hover:bg-yellow-200">
-				<button class="bg-yellow-300 hover:bg-yellow-200 font-bold border-2 rounded"
-					type="submit">enviar</button>
+			<form method="get" action="/recipes" class="flex gap-2">
+				<input type="text"
+					   name="Search"
+					   placeholder="Descubra novos pastéis..."
+					   class="rounded-sm border-2 bg-yellow-300 hover:bg-yellow-200 px-2 py-1" />
+
+				<button class="bg-yellow-300 hover:bg-yellow-200 font-bold border-2 rounded px-3"
+						type="submit">
+					enviar
+				</button>
 			</form>
 		</div>
 	</div>

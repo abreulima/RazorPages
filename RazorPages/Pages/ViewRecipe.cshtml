@@ -1,0 +1,140 @@
+﻿@page "{id:int}"
+@model RazorPages.Pages.ViewRecipeModel
+@{
+    ViewData["Title"] = Model.Recipe?.Title;
+    Layout = "_LayoutForm";
+    bool isLogged = HttpContext.Session.GetString("UserId") != null;
+}
+
+<div class="max-w-2xl mx-auto mt-8 bg-white border-3 rounded-sm p-6 flex flex-col gap-6">
+
+    <div>
+        <h1 class="text-2xl font-bold">@Model.Recipe!.Title</h1>
+        <span class="text-sm">por @Model.Recipe.CreatorName</span>
+    </div>
+
+    @if (isLogged)
+    {
+        <div class="flex items-center gap-4">
+
+            <form method="post" class="border-0" asp-page-handler="Favorite">
+                <input type="hidden" name="recipeId" value="@Model.Recipe.Id" />
+                <button type="submit" class="text-2xl bg-transparent border-0 p-0 m-0">
+                    @(Model.Recipe.isFavoritedByUser ? "❤️" : "🤍")
+                </button>
+            </form>
+
+            <form method="post" asp-page-handler="Rate" class="flex items-center gap-2 border-0">
+                <input type="hidden" name="recipeId" value="@Model.Recipe.Id" />
+
+                <select name="rating"
+                        class="text-xl border rounded px-2 py-1"
+                        onchange="this.form.submit()">
+                    <option value="">Rate</option>
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <option value="@i" selected="@(Model.Recipe.UserRating == i)">
+                            @i ⭐
+                        </option>
+                    }
+                </select>
+            </form>
+
+            <div class="text-sm">
+                <span class="font-semibold">
+                    ⭐ @Model.Recipe.CalculatedRatings.ToString("0.0")
+                </span>
+                <span class="text-gray-500">
+                    (@Model.Recipe.TotalRatings Avaliações)
+                </span>
+
+                @if (Model.Recipe.isRatedByUser)
+                {
+                    <div class="text-gray-700">
+                        Tua Avaliação: @Model.Recipe.UserRating ⭐
+                    </div>
+                }
+            </div>
+
+        </div>
+    }
+    else
+    {
+        <div class="flex items-center gap-4">
+            <span class="text-2xl">🤍</span>
+
+            <div class="text-sm">
+                <span class="font-semibold">
+                    ⭐ @Model.Recipe.CalculatedRatings.ToString("0.0")
+                </span>
+                <span class="text-gray-500">
+                    (@Model.Recipe.TotalRatings Avaliações)
+                </span>
+            </div>
+        </div>
+    }
+
+    <img class="rounded w-full object-cover object-center h-48 " src="~/images/cover.jpg">
+
+    <div class="flex gap-2 text-sm">
+            <span class="bg-yellow-300 rounded px-2 py-1">Categoria: @Model.Recipe.CategoryName</span>
+            <span class="bg-yellow-300 rounded px-2 py-1">Dificuldade: @Model.Recipe.DifficultyName</span>
+        <span class="bg-yellow-300 rounded px-2 py-1">@Model.Recipe.CreationDate.ToShortDateString()</span>
+    </div>
+
+    <div>
+        <h2 class="text-lg font-bold mb-2">Ingredientes</h2>
+        <ul class="flex flex-col gap-1">
+            @foreach (var ingredient in Model.Recipe.Ingredients)
+            {
+                <li class="flex gap-2 items-center">
+                    <span class="bg-yellow-300 rounded px-2 py-1">
+                        @ingredient.Name — @ingredient.Quantity @ingredient.Unity
+                    </span>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div>
+        <h2 class="text-lg font-bold mb-2">Preparação</h2>
+        <p class="leading-relaxed">@Model.Recipe.Preparation</p>
+    </div>
+
+    <div>
+    <h2 class="text-lg font-bold mb-2">Comentários</h2>
+    @if (isLogged)
+    {
+        <form method="post" asp-page-handler="Comment" class="flex flex-col gap-2 border-0 p-0 mb-4">
+            <input type="hidden" name="recipeId" value="@Model.Recipe.Id">
+            <textarea name="comment" maxlength="500" rows="3" required
+                      class="rounded-sm border-2 bg-yellow-300 hover:bg-yellow-200 px-2 py-1 resize-none"
+                      placeholder="Escreve um comentário..."></textarea>
+            <button type="submit" class="self-start">Comentar</button>
+        </form>
+    }
+    @if (!Model.Recipe.Comments.Any())
+    {
+        <p class="text-sm">Ainda sem comentários.</p>
+    }
+    else
+    {
+        @foreach (var c in Model.Recipe.Comments)
+        {
+            <div class="bg-yellow-300 rounded p-3 mb-2 flex flex-col gap-1">
+                <div class="flex justify-between">
+                    <span class="font-bold">@c.UserName</span>
+                    <span class="text-sm">@c.CreatedAt.ToShortDateString()</span>
+                </div>
+                <p class="text-sm">@c.Comment</p>
+            </div>
+        }
+    }
+</div>
+
+    <div class="links">
+        <a href="/Index">Voltar</a>
+        <span>🤍</span>
+    </div>
+
+    </div>

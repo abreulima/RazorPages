@@ -20,36 +20,53 @@ CREATE TABLE Users
 )
 
 /* 0, Ivan, Abreu, ivan.rupt@gmail.com, 1, 1 */
+/* https://www.md5hashgenerator.com/ 
+* admin = 21232f297a57a5a743894a0e4a801fc3
+*/
 INSERT INTO Users (firstname, lastName, email, password, isApproved, isAdmin)
-VALUES ('Ivan', 'Abreu', 'ivan.rupt@gmail.com', 'AdoroNatas123', 1, 1);
+VALUES ('Ivan', 'Abreu', 'admin@admin.com', '21232f297a57a5a743894a0e4a801fc3', 1, 1);
+
+/* https://www.md5hashgenerator.com/ 
+* teste = 698dc19d489c4e4db73e28a713eab07b
+*/
+INSERT INTO Users (firstname, lastName, email, password, isApproved, isAdmin)
+VALUES ('Dino', 'Sauro', 'nao@aprovado.com', '698dc19d489c4e4db73e28a713eab07b', 0, 0);
+
+
+/* https://www.md5hashgenerator.com/ 
+* teste = 698dc19d489c4e4db73e28a713eab07b
+*/
+INSERT INTO Users (firstname, lastName, email, password, isApproved, isAdmin)
+VALUES ('Natalia', 'Leite', 'sim@aprovado.com', '698dc19d489c4e4db73e28a713eab07b', 1, 0);
+
 
 SELECT * FROM Users;
 
 --- Start of Dificulties 
 -- TABLE
-CREATE TABLE Dificulties 
+CREATE TABLE Difficulties 
 (
     ID int IDENTITY(1,1) PRIMARY KEY,
-    dificult nvarchar(255)
+    difficult nvarchar(255)
 )
 -- DATA
 -- Newborn, Easy, Medium, Hard, Chef
-INSERT INTO Dificulties (dificult)
+INSERT INTO Difficulties (difficult)
 VALUES ('easy');
 
-INSERT INTO Dificulties (dificult)
+INSERT INTO Difficulties (difficult)
 VALUES ('newborn');
 
-INSERT INTO Dificulties (dificult)
+INSERT INTO Difficulties (difficult)
 VALUES ('medium');
 
-INSERT INTO Dificulties (dificult)
+INSERT INTO Difficulties (difficult)
 VALUES ('hard');
 
-INSERT INTO Dificulties (dificult)
+INSERT INTO Difficulties (difficult)
 VALUES ('chef');
 
-SELECT * FROM Dificulties;
+SELECT * FROM Difficulties;
 --- End of Dificulties
 
 --- Start of Ingredients
@@ -144,8 +161,9 @@ CREATE TABLE Recipes
     title           nvarchar(255),
     preparation     nvarchar(MAX),
     categoryID      int FOREIGN KEY REFERENCES Categories(ID),
-    difficultID     int FOREIGN KEY REFERENCES Dificulties(ID),
-    creationDate    datetime DEFAULT GETDATE()
+    difficultID     int FOREIGN KEY REFERENCES Difficulties(ID),
+    creationDate    datetime DEFAULT GETDATE(),
+    isApproved      bit DEFAULT 0
 )
 -- DATA
 INSERT INTO Recipes 
@@ -159,8 +177,30 @@ INSERT INTO Recipes
 VALUES  
 (
         1, 
-        'Pastel de Nata', 
+        'Pastel de Nata (Nao aprovada)', 
         'Pegue todos os ingredientes, meta tudo no microondas num intervalo entre 5 e 60 minutos. Saia de casa, e não volte.',
+        1,
+        1
+);
+
+SELECT * FROM Recipes;
+
+
+INSERT INTO Recipes 
+    (
+        creator,
+        title,
+        preparation, 
+        categoryID,
+        difficultID,
+        isApproved
+    )
+VALUES  
+(
+        1, 
+        'Pastel de Nata de Bacalhau (Aprovada)', 
+        'Pegue todos os ingredientes, meta tudo no microondas num intervalo entre 5 e 60 minutos. Saia de casa, e não volte.',
+        1,
         1,
         1
 );
@@ -235,7 +275,7 @@ CREATE TABLE IngredientsRecipes
     quantity nvarchar(255)
 )
 INSERT INTO IngredientsRecipes (recipeID, ingredientId, unity, quantity)
-VALUES (2, 1, '3', 'unidades');
+VALUES (1, 1, '3', 'unidades');
 
 SELECT * FROM IngredientsRecipes;
 -- End of IngredientsRecipes

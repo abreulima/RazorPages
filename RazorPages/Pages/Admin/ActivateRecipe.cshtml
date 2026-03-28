@@ -1,0 +1,51 @@
+﻿@page
+@model RazorPages.Pages.Admin.ActivateRecipeModel
+@{
+    ViewData["Title"] = "Receitas";
+    Layout = "_LayoutForm";
+}
+
+
+<div class="flex flex-col gap-2 bg-white border-3 rounded-sm p-5">
+
+    <h1>Receitas</h1>
+
+    <div class="flex flex-col gap-3 w-full max-w-md">
+
+        @foreach (var recipe in Model.Recipes)
+        {
+            <div class="border-3 rounded-sm p-3 bg-white flex justify-between items-center">
+
+                <div class="flex flex-col">
+                    <span class="text-xs text-gray-400">#@recipe.Id</span>
+                    <span class="font-bold">@recipe.Title</span>
+
+                    <span class="text-sm">
+                        @(recipe.IsApproved ? "Aprovada" : "Pendente")
+                    </span>
+                </div>
+
+                @if (!recipe.IsApproved)
+                {
+                    <form method="post" class="border-0">
+                        <input type="hidden" name="RecipeId" value="@recipe.Id" />
+                        <button type="submit">
+                            Aprovar
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <span class="text-sm text-green-600">✔</span>
+                }
+
+            </div>
+        }
+
+    </div>
+
+    <div class="links">
+        <a href="/admin">Voltar</a>
+    </div>
+
+</div>

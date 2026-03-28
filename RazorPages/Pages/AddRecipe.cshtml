@@ -6,74 +6,87 @@
 	Layout = "_LayoutForm";
 }
 
-<form method="post" action="">
+<form method="post" class="flex flex-col gap-4">
 
-	<h1>Receita</h1>
+    <h1>Receita</h1>
+
+    <div class="flex items-center gap-2">
+        <label>É um pastel de nata?</label>
+        <input onclick="isNatas(this);" type="checkbox" checked>
+    </div>
+
+    <div id="content" class="flex flex-col gap-4">
+
+        <div class="flex flex-col gap-1">
+            <label>Título</label>
+            <input name="Title" type="text" required>
+        </div>
+
+        <div class="flex flex-col gap-1">
+            <label>Categoria</label>
+            <select name="CategoryId" required>
+                @foreach (var category in Model.Categories)
+                {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="flex flex-col gap-1">
+            <label>Dificuldade</label>
+            <select name="DifficultId" required>
+                @foreach (var difficult in Model.Difficulties)
+                {
+                    <option value="@difficult.Id">@difficult.Name</option>
+                }
+            </select>
+        </div>
+
+        <div class="flex flex-col gap-2">
+            <label>Ingredientes</label>
+
+            <div id="container" class="flex flex-col gap-2">
+                <div id="ingredientForm" class="flex gap-2">
+
+                    <select name="IngredientesInput[0].IngredientId" required>
+                        @foreach (var ingredient in Model.AvailableIngredients)
+                        {
+                            <option value="@ingredient.Id">@ingredient.Name</option>
+                        }
+                    </select>
+
+                    <input name="IngredientesInput[0].Quantity" type="number" required placeholder="Qtd">
+
+                    <input name="IngredientesInput[0].Unity" type="text" placeholder="Unidade">
+
+                </div>
+
+            </div>
+            
+
+            <button onclick="addMoreIngredient(); return false;">
+                adicionar mais
+            </button>
+        </div>
+
+        <div class="flex flex-col gap-1">
+            <label>Preparação</label>
+            <textarea name="Preparation"
+                      required
+                      rows="5"
+                      class="rounded-sm border-2 bg-yellow-300 px-2 py-1 resize-none"
+                      placeholder="Descreva os passos da receita..."></textarea>
+        </div>
+
+        <button type="submit">enviar</button>
+
+    </div>
 
 
-	<div class="flex justify-between gap-2">
-		<label>É um pastel de nata?</label>
-		<input onclick="isNatas(this); return false;" type="checkbox" checked>
-	</div>
+     <div class="links">
+        <a href="/Index">Voltar</a>
+    </div>
 
-
-	<div id="content">
-
-	<div class="flex justify-between gap-2">
-		<label>Título</label>
-		<input name="titleName" type="text">
-	</div>
-
-	<div class="flex flex-col justify-between gap-2">
-		<label class="text-lg font-bold">Ingredientes</label>
-
-		<div class="flex flex-col gap-2">
-
-			<div id="ingredientForm" class="flex gap-2">
-				<select class="rounded-sm border-2  bg-yellow-300 hover:bg-yellow-200 " name="cars" id="cars">
-				@foreach (var ingredient in Model.AvailableIngredients)
-				{
-					<option value="@ingredient.Id">@ingredient.Name</option>
-				}
-				</select>
-				<input type="password" size="10" class="rounded-sm  border-2 bg-yellow-300 hover:bg-yellow-200"
-					   placeholder="Qtd. (1)">
-				<input type="password" size="10" class="rounded-sm  border-2 bg-yellow-300 hover:bg-yellow-200"
-					   placeholder="Unidade (kg)">
-			</div>
-		</div>
-
-
-		<button onclick="addMoreIngredient(); return false;" class="bg-yellow-300 hover:bg-yellow-200 font-bold border-2 rounded">
-			adicionar
-			mais
-		</button>
-
-	</div>
-
-	<div class="flex justify-between gap-2">
-		<label>Preparação</label>
-		<input name="preparation">
-	</div>
-
-	<div class="flex justify-between gap-2">
-		<label>email</label>
-		<input name="email" type="email">
-	</div>
-
-	<button type="submit">enviar</button>
-
-	</div>
-	
-	@if (Model.Error)
-	{
-		<span class="alert">Usuário já registrado.</span>
-	}
-
-	<div class="links">
-	<span>Já tens registo?<a href="/Login">Entrar</a></span>
-	<span><a href="/Index">Voltar</a></span>
-	</div>
 
 </form>
 
@@ -81,10 +94,18 @@
 
 	var i = 0;
 	var original = document.getElementById('ingredientForm');
+    var container = document.getElementById('container');
 
 	function addMoreIngredient() {
 		var clone = original.cloneNode(true);
 		clone.id = "ingredientForm" + ++i;
+
+		// Cria um name unico para cada input clonado.
+		clone.querySelectorAll('input, select').forEach(el => 
+		{
+			el.name = el.name.replace('[0]', `[${i}]`);
+		});
+
 		original.parentNode.appendChild(clone);
 	}
 

@@ -1,14 +1,16 @@
 ﻿@page
-@model IndexModel
+@model RazorPages.Pages.FavoritesModel
 @{
-    ViewData["Title"] = "Home page";
 }
 
 
-<h1 class="py-5 text-xl">As Melhores!</h1>
+@if (!Model.Recipes.Any())
+{
+    <p>Como assim não tens um pastel de nada favorito?</p>
+}
 
 <div class="grid grid-cols-4 gap-4">
-    @foreach (var recipe in Model.TopRecipes)
+    @foreach (var recipe in Model.Recipes)
     {
         <div class="bg-white border-2 rounded-sm p-3 transition duration-300 hover:shadow-lg hover:-translate-y-1">
 
@@ -20,13 +22,12 @@
             <div class="flex justify-between items-center">
                 
                 <a href="/ViewRecipe/@recipe.Id"
-                   class="font-bold bg-yellow-300 px-2 py-1 rounded transition hover:bg-yellow-400">
+                       class="font-bold bg-yellow-300 px-2 py-1 rounded transition hover:bg-yellow-400">
                     Visualizar
                 </a>
 
                 <div>
-                    @if (Model.IsLogged)
-                    {
+                   
                         <form method="post" asp-page-handler="Favorite">
                             <input type="hidden" name="recipeId" value="@recipe.Id" />
 
@@ -35,11 +36,7 @@
                                 @(recipe.isFavoritedByUser ? "❤️" : "🤍")
                             </button>
                         </form>
-                    }
-                    else
-                    {
-                        <a href="/Login" class="text-2xl hover:scale-125 transition">🤍</a>
-                    }
+ 
                 </div>
 
             </div>

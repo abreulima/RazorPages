@@ -1,26 +1,38 @@
 ﻿@page
 @model RazorPages.Pages.Admin.ActiveUserModel
-
 @{
-    ViewData["Title"] = "Registo";
-	Layout = "_LayoutForm";
+    ViewData["Title"] = "Usuários";
+    Layout = "_LayoutForm";
 }
 
-<form method="post" action="">
 
-	<h1>Usuários N</h1>
+<div class="flex flex-col gap-2 bg-white border-3 rounded-sm p-5">
 
-	<div class="flex justify-between gap-2">
-		<label>nome</label>
-		<input name="name" type="text">
-	</div>
+<h1>Usuários</h1>
 
-	<button type="submit">enviar</button>
+<div class="flex flex-col gap-3 w-full max-w-md">
+    @foreach (var user in Model.Users)
+    {
+        <div class="border-3 rounded-sm p-3 bg-white flex justify-between items-center">
+            <div class="flex flex-col">
+                <span class="text-xs text-gray-400">#@user.Id</span>
+                <span class="font-bold">@user.FirstName @user.LastName</span>
+                <span class="text-sm">
+                    @(user.IsApproved ? "Aprovado" : "Não aprovado")
+                </span>
+            </div>
+            <form method="post" class="border-0 py-5">
+                <input type="hidden" name="userId" value="@user.Id" />
+                <button type="submit">
+                    @(user.IsApproved ? "Desaprovar" : "Aprovar")
+                </button>
+            </form>
+        </div>
+    }
+</div>
 
-	<span class="alert">Usuário já registrado.</span>
+<div class="links">
+    <span><a href="/admin">Voltar</a></span>
+</div>
 
-	<div class="links">
-		<span><a href="">Voltar</a></span>
-	</div>
-
-</form>
+</div>
